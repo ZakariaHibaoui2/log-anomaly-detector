@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "log-anomaly-detector"
+version = "1.0.0"
+description = "Security log analytics: parses auth.log and web access logs, detects brute force, spraying, compromise, web attacks and scanners with rules, and finds anomalous IPs with Isolation Forest."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Zakaria Hibaoui" }]
+dependencies = [
+    "numpy>=1.24",
+    "scikit-learn>=1.3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5", "httpx>=0.27"]
+
+[project.scripts]
+logsentry = "logsentry.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"logsentry" = ["data/*", "rules/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["B008", "B905"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
